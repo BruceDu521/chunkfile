@@ -26,7 +26,7 @@
 如果您的系统上已安装 Go，可以直接使用以下命令安装 ChunkFile：
 
 ```bash
-go install github.com/yourusername/chunkfile/cmd/chunkfile@latest
+go install github.com/BruceDu521/chunkfile/cmd/chunkfile@latest
 ```
 
 确保您的 Go bin 目录在系统 PATH 中：
@@ -37,7 +37,7 @@ go install github.com/yourusername/chunkfile/cmd/chunkfile@latest
 
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/yourusername/chunkfile.git
+   git clone https://github.com/BruceDu521/chunkfile.git
    cd chunkfile
    ```
 

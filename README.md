@@ -26,7 +26,7 @@ A command-line tool written in Go for splitting large files into smaller chunks 
 If you have Go installed on your system, you can install ChunkFile directly using:
 
 ```bash
-go install github.com/yourusername/chunkfile/cmd/chunkfile@latest
+go install github.com/BruceDu521/chunkfile/cmd/chunkfile@latest
 ```
 
 Make sure your Go bin directory is in your PATH:
@@ -37,7 +37,7 @@ Make sure your Go bin directory is in your PATH:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/chunkfile.git
+   git clone https://github.com/BruceDu521/chunkfile.git
    cd chunkfile
    ```
 
