@@ -26,7 +26,7 @@
 如果您的系统上已安装 Go，可以直接使用以下命令安装 ChunkFile：
 
 ```bash
-go install github.com/BruceDu521/chunkfile/cmd/chunkfile@latest
+go install github.com/BruceDu521/chunkfile@latest
 ```
 
 确保您的 Go bin 目录在系统 PATH 中：
@@ -43,7 +43,7 @@ go install github.com/BruceDu521/chunkfile/cmd/chunkfile@latest
 
 2. 构建可执行文件：
    ```bash
-   go build -o chunkfile ./cmd/chunkfile
+   go build -o chunkfile
    ```
 
 3. 将可执行文件移动到 PATH 目录中，或直接在当前位置使用。
