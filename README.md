@@ -66,7 +66,7 @@ chunkfile split -p <file_path> [-s <size>] [-u <unit>]
 
 Parameters:
 - `--path, -p`: Path to the file to split (required)
-- `--size, -s`: Size of each chunk (default: 400)
+- `--size, -s`: Size of each chunk (default: 64)
 - `--unit, -u`: Size unit (B, KB, MB, GB, case-insensitive, default: MB)
 
 Example, splitting a large file into 500MB chunks:

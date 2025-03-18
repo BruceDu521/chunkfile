@@ -14,8 +14,10 @@ import (
 )
 
 const (
-	defaultChunkSize = 400 // Default chunk size in MB
-	chunkSuffix      = ".chunk."
+	unitB  = "B"
+	unitKB = "KB"
+	unitMB = "MB"
+	unitGB = "GB"
 )
 
 // Define file size units
@@ -24,6 +26,12 @@ const (
 	KB = 1024
 	MB = 1024 * 1024
 	GB = 1024 * 1024 * 1024
+)
+
+const (
+	defaultChunkSize = 64 // Default chunk size in MB
+	defaultSizeUnit  = unitMB
+	chunkSuffix      = ".chunk."
 )
 
 var (
@@ -46,16 +54,17 @@ that need to be transferred over network or stored in limited space.`,
 // Parse and validate size unit
 func parseUnit(unit string) (int64, error) {
 	switch strings.ToUpper(unit) {
-	case "B":
+	case unitB:
 		return B, nil
-	case "KB":
+	case unitKB:
 		return KB, nil
-	case "MB":
+	case unitMB:
 		return MB, nil
-	case "GB":
+	case unitGB:
 		return GB, nil
 	default:
-		return 0, fmt.Errorf("unsupported unit: %s, supported units are: B, KB, MB, GB", unit)
+		return 0, fmt.Errorf("unsupported unit: %s, supported units are: %s, %s, %s, %s",
+			unit, unitB, unitKB, unitMB, unitGB)
 	}
 }
 
@@ -63,9 +72,10 @@ func parseUnit(unit string) (int64, error) {
 var splitCmd = &cobra.Command{
 	Use:   "split",
 	Short: "Split a file into smaller chunks",
-	Long: `Split a large file into multiple smaller chunks.
-You can specify the size and unit for each chunk, default is 400MB.
-Supported units are: B, KB, MB, GB (case-insensitive).`,
+	Long: fmt.Sprintf(`Split a large file into multiple smaller chunks.
+You can specify the size and unit for each chunk, default is %d%s.
+Supported units are: %s, %s, %s, %s (case-insensitive).`,
+		defaultChunkSize, defaultSizeUnit, unitB, unitKB, unitMB, unitGB),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if filePath == "" {
 			return fmt.Errorf("please specify the file path to split")
@@ -114,7 +124,8 @@ func init() {
 	// Split command flags
 	splitCmd.Flags().StringVarP(&filePath, "path", "p", "", "path to the file to split")
 	splitCmd.Flags().Int64VarP(&chunkSize, "size", "s", defaultChunkSize, "size of each chunk")
-	splitCmd.Flags().StringVarP(&sizeUnit, "unit", "u", "MB", "size unit (B, KB, MB, GB)")
+	splitCmd.Flags().StringVarP(&sizeUnit, "unit", "u", defaultSizeUnit,
+		fmt.Sprintf("size unit (%s, %s, %s, %s)", unitB, unitKB, unitMB, unitGB))
 
 	// Merge command flags
 	mergeCmd.Flags().StringVarP(&filePath, "path", "p", "", "prefix of chunk files")
@@ -139,13 +150,13 @@ func calculateDigits(n int64) int {
 // Format file size with appropriate unit
 func formatSize(size int64) string {
 	if size < KB {
-		return fmt.Sprintf("%d B", size)
+		return fmt.Sprintf("%d %s", size, unitB)
 	} else if size < MB {
-		return fmt.Sprintf("%.2f KB", float64(size)/float64(KB))
+		return fmt.Sprintf("%.2f %s", float64(size)/float64(KB), unitKB)
 	} else if size < GB {
-		return fmt.Sprintf("%.2f MB", float64(size)/float64(MB))
+		return fmt.Sprintf("%.2f %s", float64(size)/float64(MB), unitMB)
 	} else {
-		return fmt.Sprintf("%.2f GB", float64(size)/float64(GB))
+		return fmt.Sprintf("%.2f %s", float64(size)/float64(GB), unitGB)
 	}
 }
 
